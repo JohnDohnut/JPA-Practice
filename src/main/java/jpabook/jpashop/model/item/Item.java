@@ -1,6 +1,7 @@
 package jpabook.jpashop.model.item;
 
 import jakarta.persistence.*;
+import jpabook.jpashop.exception.NotEnoughStockException;
 import jpabook.jpashop.model.ItemCategories;
 import lombok.Getter;
 
@@ -26,7 +27,18 @@ public abstract class Item {
     private List<ItemCategories> itemCategories = new ArrayList<>();
 
 
+    public void increaseQuantity(Long value){
+        this.stockQuantity += value;
+    }
 
+    public void decreaseQuantity(Long value){
+        if(this.stockQuantity - value < 0){
+            throw new NotEnoughStockException("not enough stock");
+        }
+        else{
+            this.stockQuantity -= value;
+        }
+    }
 
 
 }
