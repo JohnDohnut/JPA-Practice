@@ -1,8 +1,10 @@
 package jpabook.jpashop.model;
 
 import jakarta.persistence.*;
+import lombok.Setter;
 
 @Entity
+@Setter
 public class Delivery {
     @Id @GeneratedValue
     @Column(name = "delivery_id")

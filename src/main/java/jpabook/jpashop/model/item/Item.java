@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jpabook.jpashop.exception.NotEnoughStockException;
 import jpabook.jpashop.model.ItemCategories;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
 @Getter
+@Setter
 public abstract class Item {
     @Id @GeneratedValue
     @Column(name = "item_id")
