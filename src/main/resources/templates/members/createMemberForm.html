@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <form role="form" action="/members/new" th:object="${memberForm}"
+          method="post">
+        <div class="form-group">
+            <label th:for="username">닉네임</label>
+            <input type="text" th:field="*{username}" class="form-control"
+                   placeholder="닉네임을 입력하세요"
+                   th:class="${#fields.hasErrors('username')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('username')}"
+               th:errors="*{username}">Error in user name</p>
+        </div>
+        <div class="form-group">
+            <label th:for="name.first_name">이름</label>
+            <input type="text" th:field="*{name.first_name}" class="form-control"
+                   placeholder="이름을 입력하세요"
+                   th:class="${#fields.hasErrors('name.first_name')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('name.first_name')}"
+               th:errors="*{name.first_name}">Error in first name</p>
+        </div>
+        <div class="form-group">
+            <label th:for="name.middle_name">중간 이름</label>
+            <input type="text" th:field="*{name.middle_name}" class="form-control"
+                   placeholder="중간 이름을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="name.last_name">성</label>
+            <input type="text" th:field="*{name.last_name}" class="form-control"
+                   placeholder="성을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="email">이메일</label>
+            <input type="email" th:field="*{email}" class="form-control"
+                   placeholder="이메일을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="address.nation">국가</label>
+            <input type="text" th:field="*{address.nation}" class="form-control"
+                   placeholder="국가를 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="address.city">도시</label>
+            <input type="text" th:field="*{address.city}" class="form-control"
+                   placeholder="도시를 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="address.street_1">주소 1</label>
+            <input type="text" th:field="*{address.street_1}" class="form-control"
+                   placeholder="주소 1을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="address.street_2">주소 2</label>
+            <input type="text" th:field="*{address.street_2}" class="form-control"
+                   placeholder="주소 2를 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="address.zipcode">우편번호</label>
+            <input type="text" th:field="*{address.zipcode}" class="form-control"
+                   placeholder="우편번호를 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="birth">생년월일</label>
+            <input type="date" th:field="*{birth}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
