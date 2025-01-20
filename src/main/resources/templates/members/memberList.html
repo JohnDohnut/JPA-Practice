@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>생년월일</th>
+                <th>국가</th>
+                <th>도시</th>
+                <th>주소1</th>
+                <th>상세주소</th>
+                <th>우편번호</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members}">
+                <td th:text="${member.getId()}"></td>
+                <td th:text="${member.getName().getFirst_name()} + ' ' + (${member.getName().getMiddle_name() != null && !#strings.isEmpty(member.getName().getMiddle_name()) ? member.name.middle_name + ' ' : ''}) + ${member.getName().getLast_name()}"></td>
+                <td th:text="${member.getEmail()}"></td>
+                <td th:text="${#temporals.format(member.birth, 'yyyy-MM-dd')}"></td>
+                <td th:text="${member.getAddress().getNation()}"></td>
+                <td th:text="${member.getAddress().getCity()}"></td>
+                <td th:text="${member.getAddress().getStreet_1()}"></td>
+                <td th:text="${member.address.street_2 != null && !#strings.isEmpty(member.address.street_2) ? member.address.street_2 : 'No secondary address'}"></td>
+                <td th:text="${member.getAddress().getZipcode()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

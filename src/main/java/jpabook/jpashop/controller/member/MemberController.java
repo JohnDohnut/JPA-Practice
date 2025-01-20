@@ -3,6 +3,7 @@ package jpabook.jpashop.controller.member;
 import jakarta.validation.Valid;
 import jpabook.jpashop.model.Address;
 import jpabook.jpashop.model.Member;
+import jpabook.jpashop.model.Name;
 import jpabook.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,15 +33,33 @@ public class MemberController {
             result.getAllErrors().forEach(e -> log.debug(e.toString()));
             return "members/createMemberForm";
         }
-        Address address = new Address(memberForm.getAddress().getNation(), memberForm.getAddress().getCity(), memberForm.getAddress().getStreet_1(),memberForm.getAddress().getStreet_2(),memberForm.getAddress().getZipcode());
+        Address address = new Address(memberForm.getNation(), memberForm.getCity(), memberForm.getStreet_1(), memberForm.getStreet_2(), memberForm.getZipcode());
+        Name name = new Name(memberForm.getFirst_name(), memberForm.getMiddle_name(), memberForm.getLast_name());
         Member member = new Member();
-        member.setName(memberForm.getName());
+        member.setName(name);
         member.setBirth(memberForm.getBirth());
         member.setEmail(memberForm.getEmail());
+        member.setAddress(address);
         member.setUsername(memberForm.getUsername());
-        memberService.join(member);
-        return "redirect:/";
+        try{
+            memberService.join(member);
+
+        }
+        catch(IllegalStateException e){
+            log.debug("duplicated email");
+            e.printStackTrace();
+            return "redirect:/members/new";
+        }
+        finally {
+            return "redirect:/";
+        }
+
 
     }
-
+    @GetMapping("/members")
+    public String membersList(Model model){
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
+    }
 }
